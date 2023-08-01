@@ -21,7 +21,7 @@ greet_kb.add(random_q)
 @dp.message_handler(commands="start")
 async def hi(m: types.Message):
     sti = open(".//images//8ball.gif", "rb")
-    await bot.send_document(m.chat.id, sti, caption=f"Салам, {m.from_user.first_name}! Я - Magic 8 ball", reply_markup = kb.greet_kb)
+    await bot.send_document(m.chat.id, sti, caption=f"Салам, {m.from_user.first_name}! Я - Magic 8 ball", reply_markup = greet_kb)
     sti.close()
 
 
