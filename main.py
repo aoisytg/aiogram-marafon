@@ -1,10 +1,19 @@
 from aiogram import Bot, Dispatcher, executor, types
 import config
 import random
+from aiogram.types import ReplyKeyboardRemove, \
+    ReplyKeyboardMarkup, KeyboardButton, \
+    InlineKeyboardMarkup, InlineKeyboardButton
+
 
 # статичні змінні
 bot = Bot(token=config.token)
 dp = Dispatcher(bot)
+
+random_q = KeyboardButton('Рандомне питання')
+
+greet_kb = ReplyKeyboardMarkup()
+greet_kb.add(random_q)
 
 # /start
 
@@ -12,7 +21,7 @@ dp = Dispatcher(bot)
 @dp.message_handler(commands="start")
 async def hi(m: types.Message):
     sti = open(".//images//8ball.gif", "rb")
-    await bot.send_document(m.chat.id, sti, caption=f"Салам, {m.from_user.first_name}! Я - Magic 8 ball")
+    await bot.send_document(m.chat.id, sti, caption=f"Салам, {m.from_user.first_name}! Я - Magic 8 ball", reply_markup = kb.greet_kb)
     sti.close()
 
 
