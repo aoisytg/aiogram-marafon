@@ -10,7 +10,7 @@ from aiogram.types import ReplyKeyboardRemove, \
 bot = Bot(token=config.token)
 dp = Dispatcher(bot)
 
-random_q = KeyboardButton('Рандомне питання')
+random_q = KeyboardButton('Рандомне питання', callback_data = "randq    ")
 
 greet_kb = ReplyKeyboardMarkup()
 greet_kb.add(random_q)
@@ -60,6 +60,13 @@ list_of_answers = [
 async def send_answer(m: types.Message):
     ans = random.randrange(-1, len(list_of_answers))
     await m.answer(f'Моя відповідь: {list_of_answers[ans]}')
+
+
+@dp.callback_query_handler(func=lambda c: c.data == 'randomq')
+async def process_callback_button1(callback_query: types.CallbackQuery):
+    await bot.answer_callback_query(callback_query.id)
+    await bot.send_message(callback_query.from_user.id, 'Нажата первая кнопка!')
+
 
 if __name__ == "__main__":
     executor.start_polling(dp, skip_updates=True)
