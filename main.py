@@ -10,10 +10,8 @@ from aiogram.types import ReplyKeyboardRemove, \
 bot = Bot(token=config.token)
 dp = Dispatcher(bot)
 
-random_q = KeyboardButton('Рандомне питання', callback_data = "randq    ")
-
-greet_kb = ReplyKeyboardMarkup()
-greet_kb.add(random_q)
+inline_btn_1 = InlineKeyboardButton('Рандомне питання', callback_data='button1')
+inline_kb1 = InlineKeyboardMarkup().add(inline_btn_1)
 
 # /start
 
@@ -21,7 +19,7 @@ greet_kb.add(random_q)
 @dp.message_handler(commands="start")
 async def hi(m: types.Message):
     sti = open(".//images//8ball.gif", "rb")
-    await bot.send_document(m.chat.id, sti, caption=f"Салам, {m.from_user.first_name}! Я - Magic 8 ball", reply_markup = greet_kb)
+    await bot.send_document(m.chat.id, sti, caption=f"Салам, {m.from_user.first_name}! Я - Magic 8 ball", reply_markup = inline_kb1)
     sti.close()
 
 
