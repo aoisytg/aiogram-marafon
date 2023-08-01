@@ -1,9 +1,7 @@
 from aiogram import Bot, Dispatcher, executor, types
 import config
 import random
-from aiogram.types import ReplyKeyboardRemove, \
-    ReplyKeyboardMarkup, KeyboardButton, \
-    InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 # Статичні змінні
 bot = Bot(token=config.token)
