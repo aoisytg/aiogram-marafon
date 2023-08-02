@@ -40,8 +40,7 @@ bot = Bot(token=config.token)
 dp = Dispatcher(bot)
 
 # Створення InlineKeyboardMarkup
-inline_btn_1 = InlineKeyboardButton(
-    'Рандомне питання', callback_data='button1')
+inline_btn_1 = InlineKeyboardButton('Рандомне питання', callback_data='button1')
 inline_kb1 = InlineKeyboardMarkup().add(inline_btn_1)
 
 # Обробка команди /start
@@ -62,11 +61,14 @@ async def send_answer(m: types.Message):
 
 # Обробка натискання кнопки
 
+site_list = ["https://leetcode.com", "https://sololearn.com","https://zelenka.guru/"]
+
+rsite = random.choices(site_list)
 
 @dp.callback_query_handler(text='button1')
 async def process_callback_button1(callback_query: types.CallbackQuery):
     await bot.answer_callback_query(callback_query.id)
-    await bot.send_message(callback_query.from_user.id, 'Рандомне повідомлення')
+    await bot.send_message(callback_query.from_user.id, f"Рандомний сайт : \n {rsite}")
 
 # Запуск бота
 if __name__ == "__main__":
