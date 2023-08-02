@@ -2,22 +2,10 @@ from aiogram import Bot, Dispatcher, executor, types
 import config
 import random
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+import openai
 
-# Статичні змінні
-bot = Bot(token=config.token)
-dp = Dispatcher(bot)
+openai.my_api_key = config.gpt_api
 
-inline_btn_1 = InlineKeyboardButton('Рандомне питання', callback_data='button1')
-inline_kb1 = InlineKeyboardMarkup().add(inline_btn_1)
-
-# Обробка команди /start
-@dp.message_handler(commands="start")
-async def hi(m: types.Message):
-    sti = open(".//images//8ball.gif", "rb")
-    await bot.send_document(m.chat.id, sti, caption=f"Салам, {m.from_user.first_name}! Я - Magic 8 ball", reply_markup=inline_kb1)
-    sti.close()
-
-# Варіанти відповідей
 list_of_answers = [
     # Позитивні відповіді
     "● Звісно, що так.",
@@ -46,14 +34,36 @@ list_of_answers = [
     "● Дуже сумнівно."
 ]
 
+
+# Статичні змінні
+bot = Bot(token=config.token)
+dp = Dispatcher(bot)
+
+# Створення InlineKeyboardMarkup
+inline_btn_1 = InlineKeyboardButton(
+    'Рандомне питання', callback_data='button1')
+inline_kb1 = InlineKeyboardMarkup().add(inline_btn_1)
+
+# Обробка команди /start
+
+
+@dp.message_handler(commands=['start'])
+async def hi(m: types.Message):
+    with open(".//images//8ball.gif", "rb") as sti:
+        await bot.send_document(m.chat.id, sti, caption=f"Салам, {m.from_user.first_name}! Я - Magic 8 ball", reply_markup=inline_kb1)
+
 # Обробка текстових повідомлень
+
+
 @dp.message_handler(content_types="text")
 async def send_answer(m: types.Message):
-    ans = random.randrange(-1, len(list_of_answers))
-    await m.answer(f'Моя відповідь: {list_of_answers[ans]}')
+    ans = random.choice(list_of_answers)
+    await m.answer(f'Моя відповідь: {ans}')
 
 # Обробка натискання кнопки
-@dp.callback_query_handler(func=lambda c: c.data == 'button1')
+
+
+@dp.callback_query_handler(text='button1')
 async def process_callback_button1(callback_query: types.CallbackQuery):
     await bot.answer_callback_query(callback_query.id)
     await bot.send_message(callback_query.from_user.id, 'Рандомне повідомлення')
