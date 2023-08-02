@@ -61,7 +61,7 @@ async def send_answer(m: types.Message):
 
 # Обробка натискання кнопки
 
-site_list = ["https://leetcode.com", "https://sololearn.com","https://zelenka.guru/"]
+site_list = ["https://leetcode.com", "https://sololearn.com","https://zelenka.gusru/"]
 
 rsite = random.choices(site_list)
 
